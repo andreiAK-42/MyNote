@@ -1,15 +1,20 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+   // id("kotlin-kapt")
     id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.example.mynotes"
+    namespace = "com.example.mynote"
     compileSdk = 35
 
+    kapt {
+        generateStubs = true
+    }
+
     defaultConfig {
-        applicationId = "com.example.mynotes"
+        applicationId = "com.example.mynote"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -61,6 +66,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03")
 
     //Dagger
-    implementation("com.google.dagger:dagger:2.27")
-    kapt("com.google.dagger:dagger-compiler:2.27")
+    implementation("com.google.dagger:dagger:2.48.1")
+    kapt("com.google.dagger:dagger-compiler:2.48.1")
 }

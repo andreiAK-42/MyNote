@@ -1,7 +1,6 @@
 import android.app.Application
 import di.AppComponent
 import di.DaggerAppComponent
-//import di.DaggerAppComponent
 import di.NoteModule
 
 class MyApp: Application() {
