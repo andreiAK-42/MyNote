@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.example.mynote"
-    compileSdk = 34
+    namespace = "com.example.mynotes"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.mynote"
+        applicationId = "com.example.mynotes"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -45,4 +46,21 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("androidx.core:core-ktx:1.9.0")
+
+
+
+    // Room architecture component dependencies
+    implementation("androidx.room:room-runtime:2.4.1")
+    kapt("androidx.room:room-compiler:2.4.1")
+    implementation("androidx.room:room-ktx:2.4.1")
+
+    //Live data and life cycles
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0-rc03")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03")
+
+    //Dagger
+    implementation("com.google.dagger:dagger:2.27")
+    kapt("com.google.dagger:dagger-compiler:2.27")
 }
