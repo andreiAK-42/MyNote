@@ -16,12 +16,12 @@ abstract class NoteDatabase: RoomDatabase() {
             if (db_instance == null) {
                 db_instance = Room.databaseBuilder<NoteDatabase>(
                     context.applicationContext, NoteDatabase::class.java, "note_db"
-                ).allowMainThreadQueries()
+                )
+                    .allowMainThreadQueries()
                     .build()
 
             }
             return db_instance!!
         }
     }
-
 }

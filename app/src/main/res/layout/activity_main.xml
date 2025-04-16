@@ -19,6 +19,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
             android:text="My Notes"
             android:textColor="#30383A"
             android:textSize="29sp">
@@ -27,6 +28,18 @@
 
     </LinearLayout>
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_rounded"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@android:color/transparent"
+        android:queryHint="Search you note ..."
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+    </SearchView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,16 +47,6 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical">
-
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_rounded"
-            android:iconifiedByDefault="false"
-            android:queryBackground="@android:color/transparent"
-            android:queryHint="Search you note ...">
-
-        </SearchView>
 
         <HorizontalScrollView
             android:layout_marginTop="10dp"
@@ -130,10 +133,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="#000000"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp" />
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rview_todo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
@@ -173,7 +177,6 @@
                         android:text="Reminder"
                         android:textSize="28sp"
                         android:textColor="@color/black"
-                        android:layout_gravity="left"
                         android:layout_marginStart="5dp"
                         />
 
@@ -223,7 +226,6 @@
                         android:text="Important"
                         android:textSize="28sp"
                         android:textColor="@color/black"
-                        android:layout_gravity="left"
                         android:layout_marginStart="5dp"
                         />
 
@@ -262,23 +264,23 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.chip.Chip
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:id="@+id/chip_addNewNote"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 app:chipCornerRadius="60dp"
                 android:layout_gravity="center"
-                app:strokeColor="@color/black">
+                app:chipIconSize="80dp"
+                app:ensureMinTouchTargetSize="false"
+                app:chipIcon="@drawable/plus"
+                app:chipStartPadding="10dp"
+                app:chipEndPadding="10dp"
+                app:chipMinHeight="120dp"
+                android:maxWidth="120dp"
+                android:maxHeight="120dp">
 
             </com.google.android.material.chip.Chip>
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                app:chipCornerRadius="60dp"
-                android:layout_marginStart="30dp"
-                android:layout_gravity="center"
-                app:strokeColor="@color/black">
 
-            </com.google.android.material.chip.Chip>
 
             <View
                 android:layout_width="0dip"

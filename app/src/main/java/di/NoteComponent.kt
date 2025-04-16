@@ -6,6 +6,6 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [NoteModule::class])
-interface AppComponent {
+interface NoteComponent {
     fun inject(mainActivityViewModel: MainActivityViewModel)
 }

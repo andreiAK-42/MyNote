@@ -1,5 +1,6 @@
 package viewModel
 
+import com.example.mynote.MyApp
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -12,22 +13,32 @@ class MainActivityViewModel(application: Application): AndroidViewModel(applicat
     @Inject
     lateinit var noteDao: NoteDao
 
-    lateinit var allNoteList: MutableLiveData<List<NoteEntity>>
+    lateinit var allNoteList: MutableLiveData<MutableList<NoteEntity>>
     init {
+        (application as MyApp).getNoteComponent().inject(this)
         allNoteList = MutableLiveData()
-
+        getAllRecords()
     }
 
-    fun getRecordsObserver(): MutableLiveData<List<NoteEntity>> {
+    fun getRecordsObserver(): MutableLiveData<MutableList<NoteEntity>> {
         return allNoteList
     }
 
     fun getAllRecords() {
         val list = noteDao.getAllRecordsFromDB()
-        allNoteList.postValue(list)
+        allNoteList.value = list!!
+    }
+
+    fun deleteRecord(noteEntity: NoteEntity) {
+        noteDao.deleteRecord(noteEntity)
+    }
+
+    fun updateRecord(noteEntity: NoteEntity) {
+        noteDao.updateRecord(noteEntity)
     }
 
     fun insertRecord(noteEntity: NoteEntity) {
         noteDao.insertRecord(noteEntity)
+        getAllRecords()
     }
 }

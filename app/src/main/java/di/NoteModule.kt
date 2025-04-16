@@ -2,7 +2,6 @@ package di
 
 import android.app.Application
 import android.content.Context
-import android.provider.ContactsContract.CommonDataKinds.Note
 import dagger.Module
 import dagger.Provides
 import database.NoteDao
