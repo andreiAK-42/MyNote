@@ -13,6 +13,23 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
+        var addMode: Int = 1
+
+        findViewById<Chip>(R.id.chip_back).setOnClickListener {
+            finish()
+        }
+
+
+        if (intent.extras != null && intent.extras!!.getString("title") != null) {
+            findViewById<EditText>(R.id.etview_title).setText(
+                intent.extras!!.getString("title").toString()
+            )
+            findViewById<EditText>(R.id.etview_description).setText(
+                intent.extras!!.getString("description").toString()
+            )
+            addMode = 0
+        }
+
         findViewById<Chip>(R.id.btn_save).setOnClickListener {
             val resultIntent = Intent()
             val title: String = findViewById<EditText>(R.id.etview_title).text.toString()
@@ -24,9 +41,16 @@ class EditActivity : AppCompatActivity() {
             } else {
                 resultIntent.putExtra("title", title)
                 resultIntent.putExtra("description", description)
+
+                if (addMode == 0) {
+                    resultIntent.putExtra("id", intent.extras!!.getInt("id"))
+                    resultIntent.putExtra("state", intent.extras!!.getInt("state"))
+                }
+
                 setResult(Activity.RESULT_OK, resultIntent)
                 finish()
             }
+
         }
     }
 }

@@ -20,21 +20,19 @@ class MainActivityViewModel(application: Application): AndroidViewModel(applicat
         getAllRecords()
     }
 
-    fun getRecordsObserver(): MutableLiveData<MutableList<NoteEntity>> {
-        return allNoteList
-    }
-
     fun getAllRecords() {
         val list = noteDao.getAllRecordsFromDB()
         allNoteList.value = list!!
     }
 
     fun deleteRecord(noteEntity: NoteEntity) {
+        allNoteList.value!!.remove(noteEntity)
         noteDao.deleteRecord(noteEntity)
     }
 
     fun updateRecord(noteEntity: NoteEntity) {
         noteDao.updateRecord(noteEntity)
+        getAllRecords()
     }
 
     fun insertRecord(noteEntity: NoteEntity) {

@@ -13,12 +13,13 @@
         android:orientation="horizontal">
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/chip_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:chipIconSize="60dp"
             android:layout_marginStart="10dp"
             app:ensureMinTouchTargetSize="false"
-            app:chipIcon="@drawable/left_arrow"
+            app:chipIcon="@drawable/back"
             app:chipStartPadding="10dp"
             app:chipEndPadding="0dp"
             app:chipMinHeight="120dp"

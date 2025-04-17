@@ -29,6 +29,7 @@
     </LinearLayout>
 
     <SearchView
+        android:id="@+id/searchView_searchNotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_white_rounded"
@@ -52,55 +53,21 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            app:closeIconVisible="false">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:orientation="horizontal">
 
-                <com.google.android.material.chip.Chip
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:text="All (23)"
-                    app:chipCornerRadius="20dp"
-                    app:chipStrokeColor="@color/black">
-
-                </com.google.android.material.chip.Chip>
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:text="Important (3)"
-                    app:chipCornerRadius="20dp"
-                    app:chipBackgroundColor="#8BD2C9"
-                    app:chipStrokeColor="@color/black">
-
-                </com.google.android.material.chip.Chip>
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:text="To-Do (12)"
-                    app:chipCornerRadius="20dp"
-                    app:chipBackgroundColor="#F4D798"
-                    app:chipStrokeColor="@color/black">
-
-                </com.google.android.material.chip.Chip>
-
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:text="Reminder (3)"
-                    app:chipCornerRadius="20dp"
-                    app:chipBackgroundColor="#F6A5A0"
-                    app:chipStrokeColor="@color/black">
-
-                </com.google.android.material.chip.Chip>
+                    android:layout_height="wrap_content"
+                    app:singleSelection="false"
+                    app:selectionRequired="false">
+                </com.google.android.material.chip.ChipGroup>
 
             </LinearLayout>
 
@@ -118,7 +85,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@drawable/border">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -143,6 +111,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="15dp"
+
                     android:layout_marginTop="10dp">
 
                 </androidx.recyclerview.widget.RecyclerView>
@@ -169,15 +138,16 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@drawable/border">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Reminder"
-                        android:textSize="28sp"
+                        android:textSize="24sp"
                         android:textColor="@color/black"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginStart="10dp"
                         />
 
                     <View
@@ -218,15 +188,16 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@drawable/border">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Important"
-                        android:textSize="28sp"
+                        android:textSize="24sp"
                         android:textColor="@color/black"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginStart="10dp"
                         />
 
                     <View

@@ -1,12 +1,15 @@
-package com.example.mynote
+package com.example.mynote.ui
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mynote.R
 import database.NoteEntity
+
 
 class ToDoAdapter(
     private var noteList: MutableList<NoteEntity>,
@@ -30,32 +33,51 @@ class ToDoAdapter(
         val note = noteList[position]
         holder.title.text = note.title
 
-        if (note.state == 1) {
-            holder.markImageView.setImageResource(R.drawable.check_mark_button)
-        } else if (note.state == 2) {
-            holder.markImageView.setImageResource(R.drawable.cross_mark_button)
-        } else {
-            holder.markImageView.setImageResource(R.drawable.white_medium_square)
+        when (note.state) {
+            0 -> {
+                holder.markImageView.setImageResource(R.drawable.white_medium_square)
+            }
+
+            1 -> {
+                holder.markImageView.setImageResource(R.drawable.check_mark_button)
+                holder.title.paintFlags = holder.title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            }
+
+            2 -> {
+                holder.markImageView.setImageResource(R.drawable.cross_mark_button)
+            }
         }
 
         holder.markImageView.setOnClickListener {
-            if (note.state == 0) {
-                holder.markImageView.setImageResource(R.drawable.check_mark_button)
-                note.state = 1
-            } else if (note.state == 1) {
-                holder.markImageView.setImageResource(R.drawable.cross_mark_button)
-                note.state = 2
-            } else {
-                holder.markImageView.setImageResource(R.drawable.white_medium_square)
-                note.state = 0
+            when (note.state) {
+                0 -> {
+                    holder.markImageView.setImageResource(R.drawable.check_mark_button)
+                    holder.title.paintFlags = holder.title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    note.state = 1
+                }
+
+                1 -> {
+                    holder.markImageView.setImageResource(R.drawable.cross_mark_button)
+                    holder.title.paintFlags =
+                        holder.title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    note.state = 2
+                }
+
+                2 -> {
+                    holder.markImageView.setImageResource(R.drawable.white_medium_square)
+                    note.state = 0
+                }
             }
             listener.onNoteUpdate(note)
+        }
+
+        holder.title.setOnClickListener {
+            listener.onViewNote(note)
         }
 
         holder.itemView.setOnLongClickListener {
             val position = holder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-
                 deleteItem(position)
             }
             true
@@ -66,7 +88,7 @@ class ToDoAdapter(
         listener.onNoteDelete(noteList[position])
         noteList.removeAt(position)
         notifyItemRemoved(position)
-        notifyItemRangeChanged(position, noteList.size)
+        //notifyItemRangeChanged(position, noteList.size)
     }
 
     fun updateList(newList: List<NoteEntity>) {
@@ -77,6 +99,7 @@ class ToDoAdapter(
     interface OnNoteDeleteListener {
         fun onNoteDelete(note: NoteEntity)
         fun onNoteUpdate(note: NoteEntity)
+        fun onViewNote(note: NoteEntity)
     }
 
     override fun getItemCount(): Int {
