@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.OnNoteAdapterListener, Sea
 
     private lateinit var searchView: SearchView
     private lateinit var listView: ListView
-    private lateinit var adapter: SearchAdapter
+    private lateinit var searchAdapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +53,26 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.OnNoteAdapterListener, Sea
     private fun setupViews() {
         searchView = findViewById(R.id.searchView_searchNotes)
         listView = findViewById(R.id.listview)
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        viewModel.allNoteList.observe(this) { notes ->
+            chipManager.updateChip(0, "All (${viewModel.allNoteList.value!!.count()})")
+            chipManager.updateChip(2, "To-Do (${viewModel.allNoteList.value!!.count()})")
+            searchAdapter.updateData(notes)
+            todoAdapter.updateList(notes)
+        }
+    }
+
+    private fun initAdapters() {
+        val recyclerView = findViewById<RecyclerView>(R.id.rview_todo)
+        recyclerView.layoutManager = GridLayoutManager(this, 1)
+        todoAdapter = ToDoAdapter(viewModel.allNoteList.value ?: mutableListOf(), listener = this)
+        recyclerView.adapter = todoAdapter
+
+        searchAdapter = SearchAdapter(this, viewModel.allNoteList.value!!, this)
+        listView.adapter = searchAdapter
     }
 
     private fun setupSearch() {
@@ -86,25 +106,12 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.OnNoteAdapterListener, Sea
                             note.description.contains(query, ignoreCase = true)
                 }
             }
-            adapter.updateData(filtered)
-        }
-    }
-
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        viewModel.allNoteList.observe(this) { notes ->
-            chipManager.updateChip(0, "All (${viewModel.allNoteList.value!!.count()})")
-            chipManager.updateChip(2, "To-Do (${viewModel.allNoteList.value!!.count()})")
-            adapter.updateData(notes)
-            todoAdapter.updateList(notes)
+            searchAdapter.updateData(filtered)
         }
     }
 
     override fun onNoteDelete(note: NoteEntity) {
         viewModel.deleteRecord(note)
-       /* var dg =
-            DialogFragmentSetTags(arrayOf("Раз", "Два", "Три"), booleanArrayOf(false, false, false))
-        dg.show(supportFragmentManager, "dlg1")*/
     }
 
     override fun onNoteUpdate(note: NoteEntity) {
@@ -113,16 +120,6 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.OnNoteAdapterListener, Sea
 
     override fun OnSelectItem(note: NoteEntity) {
         openNote(note)
-    }
-
-    private fun initAdapters() {
-        val recyclerView = findViewById<RecyclerView>(R.id.rview_todo)
-        recyclerView.layoutManager = GridLayoutManager(this, 1)
-        todoAdapter = ToDoAdapter(viewModel.allNoteList.value ?: mutableListOf(), listener = this)
-        recyclerView.adapter = todoAdapter
-
-        adapter = SearchAdapter(this, viewModel.allNoteList.value!!, this)
-        listView.adapter = adapter
     }
 
     override fun onViewNote(note: NoteEntity) {
