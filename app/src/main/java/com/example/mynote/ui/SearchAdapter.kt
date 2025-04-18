@@ -1,4 +1,5 @@
 import android.content.Context
+import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -6,12 +7,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.mynote.EditActivity
 import com.example.mynote.R
+import com.example.mynote.ui.ToDoAdapter
 import database.NoteEntity
 
-class NoteAdapter(
+class SearchAdapter(
     context: Context,
-    notes: MutableList<NoteEntity>
+    notes: MutableList<NoteEntity>,
+    private val listener: SearchAdapter.OnSearchAdapterListener
 ) : ArrayAdapter<NoteEntity>(context, R.layout.note_item, notes) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -26,25 +30,30 @@ class NoteAdapter(
 
         when (note.state) {
             0 -> {
-                markImageView.setImageResource(R.drawable.check_mark_button)
+                markImageView.setImageResource(R.drawable.white_medium_square)
                 title.paintFlags = title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                note.state = 1
             }
 
             1 -> {
-                markImageView.setImageResource(R.drawable.cross_mark_button)
+                markImageView.setImageResource(R.drawable.check_mark_button)
                 title.paintFlags =
                     title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                note.state = 2
             }
 
             2 -> {
-                markImageView.setImageResource(R.drawable.white_medium_square)
-                note.state = 0
+                markImageView.setImageResource(R.drawable.cross_mark_button)
             }
         }
 
+        view.setOnClickListener {
+            listener.OnSelectItem(note)
+        }
+
         return view
+    }
+
+    interface OnSearchAdapterListener {
+        fun OnSelectItem(note: NoteEntity)
     }
 
     fun updateData(newNotes: List<NoteEntity>) {

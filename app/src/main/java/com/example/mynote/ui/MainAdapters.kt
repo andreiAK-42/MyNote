@@ -13,7 +13,7 @@ import database.NoteEntity
 
 class ToDoAdapter(
     private var noteList: MutableList<NoteEntity>,
-    private val listener: OnNoteDeleteListener
+    private val listener: OnNoteAdapterListener
 ) :
     RecyclerView.Adapter<ToDoAdapter.ViewHolder>() {
 
@@ -96,7 +96,7 @@ class ToDoAdapter(
         notifyDataSetChanged()
     }
 
-    interface OnNoteDeleteListener {
+    interface OnNoteAdapterListener {
         fun onNoteDelete(note: NoteEntity)
         fun onNoteUpdate(note: NoteEntity)
         fun onViewNote(note: NoteEntity)

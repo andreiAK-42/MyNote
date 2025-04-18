@@ -5,7 +5,7 @@ import di.NoteComponent
 import di.DaggerNoteComponent
 import di.NoteModule
 
-class MyApp: Application() {
+class MyApp : Application() {
 
     private lateinit var noteComponent: NoteComponent
 

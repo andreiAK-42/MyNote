@@ -1,6 +1,6 @@
 package com.example.mynote
 
-import NoteAdapter
+import SearchAdapter
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynote.ui.ChipManager
+import com.example.mynote.ui.DialogFragmentSetTags
 import com.example.mynote.ui.ToDoAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -21,14 +22,14 @@ import database.NoteEntity
 import viewModel.MainActivityViewModel
 
 
-class MainActivity : AppCompatActivity(), ToDoAdapter.OnNoteDeleteListener {
+class MainActivity : AppCompatActivity(), ToDoAdapter.OnNoteAdapterListener, SearchAdapter.OnSearchAdapterListener {
     lateinit var viewModel: MainActivityViewModel
     lateinit var todoAdapter: ToDoAdapter
     lateinit var chipManager: ChipManager
 
     private lateinit var searchView: SearchView
     private lateinit var listView: ListView
-    private lateinit var adapter: NoteAdapter
+    private lateinit var adapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,10 +102,17 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.OnNoteDeleteListener {
 
     override fun onNoteDelete(note: NoteEntity) {
         viewModel.deleteRecord(note)
+       /* var dg =
+            DialogFragmentSetTags(arrayOf("Раз", "Два", "Три"), booleanArrayOf(false, false, false))
+        dg.show(supportFragmentManager, "dlg1")*/
     }
 
     override fun onNoteUpdate(note: NoteEntity) {
         viewModel.updateRecord(note)
+    }
+
+    override fun OnSelectItem(note: NoteEntity) {
+        openNote(note)
     }
 
     private fun initAdapters() {
@@ -113,11 +121,15 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.OnNoteDeleteListener {
         todoAdapter = ToDoAdapter(viewModel.allNoteList.value ?: mutableListOf(), listener = this)
         recyclerView.adapter = todoAdapter
 
-        adapter = NoteAdapter(this, viewModel.allNoteList.value!!)
+        adapter = SearchAdapter(this, viewModel.allNoteList.value!!, this)
         listView.adapter = adapter
     }
 
     override fun onViewNote(note: NoteEntity) {
+        openNote(note)
+    }
+
+    private fun openNote(note: NoteEntity) {
         val intent = Intent(this, EditActivity::class.java)
         intent.putExtra("title", note.title)
         intent.putExtra("state", note.state)
@@ -125,7 +137,6 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.OnNoteDeleteListener {
         intent.putExtra("description", note.description)
         startForResult.launch(intent)
     }
-
 
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
