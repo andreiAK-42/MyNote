@@ -19,7 +19,6 @@ class EditActivity : AppCompatActivity() {
             finish()
         }
 
-
         if (intent.extras != null && intent.extras!!.getString("title") != null) {
             findViewById<EditText>(R.id.etview_title).setText(
                 intent.extras!!.getString("title").toString()

@@ -12,7 +12,6 @@ interface NoteDao {
     @Query("SELECT * FROM note_entity ORDER BY id DESC")
     fun getAllRecordsFromDB(): MutableList<NoteEntity>?
 
-
     @Insert
     fun insertRecord(noteEntity: NoteEntity)
 

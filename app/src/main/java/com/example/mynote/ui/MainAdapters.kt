@@ -88,7 +88,7 @@ class ToDoAdapter(
         listener.onNoteDelete(noteList[position])
         noteList.removeAt(position)
         notifyItemRemoved(position)
-        //notifyItemRangeChanged(position, noteList.size)
+        notifyItemRangeChanged(position, noteList.size)
     }
 
     fun updateList(newList: List<NoteEntity>) {
